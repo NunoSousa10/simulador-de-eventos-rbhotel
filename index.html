@@ -242,7 +242,7 @@
                         <div>
                             <input type="checkbox" data-price="10" data-type="perPessoa" id="extraSala" class="sr-only peer">
                             <label for="extraSala" class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center">
-                                <span class="font-medium text-sm">Sala Privada</span><p class="text-xs text-gray-500">+10,00 €/p</p><p class="text-xs text-gray-500 font-bold">(mín. 35 pax)</p>
+                                <span class="font-medium text-sm">Sala Privada</span><p class="text-xs text-gray-500">+10,00 €/p</p><p class="text-xs text-gray-500 font-bold">(mín. 30 pax)</p>
                             </label>
                         </div>
                         <div>
@@ -321,7 +321,7 @@
         </p>
     </footer>
 
-    <script>
+            <script>
         document.addEventListener('DOMContentLoaded', () => {
             const allInputs = document.querySelectorAll('input, select');
             const formatCurrency = (value) => `€${value.toFixed(2).replace('.', ',')}`;
@@ -375,7 +375,7 @@
                 // Sala Privada condition
                 const salaPrivadaCheckbox = document.getElementById('extraSala');
                 
-                if (totalConvidadosPagantes < 35) {
+                if (totalConvidadosPagantes < 30) {
                     salaPrivadaCheckbox.disabled = true;
                     salaPrivadaCheckbox.checked = false;
                 } else {
@@ -579,4 +579,5 @@
 
 </body>
 </html>
+
 
