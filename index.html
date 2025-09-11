@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -119,6 +119,9 @@
             <h1 class="text-4xl font-bold tracking-wider mb-6" style="color: var(--brand-brown); text-shadow: 2px 2px 8px rgba(0,0,0,0.1);">Hotel Rio Beça</h1>
             <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-brown-light to-brand-brown">Simulador de Eventos</h2>
             <p class="mt-4 text-lg md:text-xl text-gray-700 font-medium">Ementa para o Restaurante ou Salão dos Espelhos</p>
+            <div class="mt-6 p-3 text-center text-sm rounded-lg bg-yellow-100 text-yellow-800 border border-yellow-200 max-w-3xl mx-auto">
+                <strong>Nota Importante:</strong> Nos meses de verão, no Salão dos Espelhos, o valor final da ementa poderá sofrer um acréscimo de preço.
+            </div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -214,7 +217,7 @@
                             </div>
                             <div>
                                 <label for="pratoCarne" class="block font-medium mb-2">Prato de Carne</label>
-                                <select id="pratoCarne" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-brown-light transition-all"><option value="0" data-name="Vitela Barrosã grelhada ou assada">Vitela Barrosã grelhada/assada</option><option value="0" data-name="Misto de vitela Barrosã cozida e grelhada">Misto vitela cozida e grelhada</option><option value="0" data-name="Bifinhos com cogumelos">Bifinhos com cogumelos</option><option value="0" data-name="Vitela Barrosã estufada com castanhas">Vitela estufada com castanhas</option><option value="0" data-name="Javali estufado com castanhas">Javali estufado com castanhas</option><option value="5" data-name="Misto de vitela barrosã e cabrito barrosão">Misto vitela e cabrito (+5€)</option><option value="0" data-name="Medalhões de vitela barrosã">Medalhões de vitela</option><option value="0" data-name="Arroz de pato">Arroz de pato</option></select>
+                                <select id="pratoCarne" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-brown-light transition-all"><option value="0" data-name="Vitela Barrosã grelhada ou assada">Vitela Barrosã grelhada/assada</option><option value="0" data-name="Misto de vitela Barrosã cozida e grelhada">Misto vitela cozida e grelhada</option><option value="0" data-name="Bifinhos com cogumelos">Bifinhos com cogumelos</option><option value="0" data-name="Vitela Barrosã estufada com castanhas">Vitela estufada com castanhas</option><option value="0" data-name="Javali estufado com castanhas">Javali estufado com castanhas</option><option value="5" data-name="Misto de vitela barrosã e cabrito barrosão">Misto vitela e cabrito (+5€)</option><option value="5" data-name="Medalhões de vitela barrosã">Medalhões de vitela (+5€)</option><option value="0" data-name="Arroz de pato">Arroz de pato</option></select>
                             </div>
                         </div>
                     </div>
@@ -230,7 +233,7 @@
                              <label><input type="radio" name="vinho" value="0" data-name="Vinho da Casa" class="sr-only peer" checked><div class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center"><span class="font-medium text-sm">Vinho da Casa</span><p class="text-xs text-gray-500">Incluído</p></div></label>
                              <label><input type="radio" name="vinho" value="7.50" data-name="Encostas de Sonim" class="sr-only peer"><div class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center"><span class="font-medium text-sm">Encostas de Sonim</span><p class="text-xs text-gray-500">+7,50 €/adulto</p></div></label>
                              <label><input type="radio" name="vinho" value="10" data-name="Quinta de Arcossó Colheita" class="sr-only peer"><div class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center"><span class="font-medium text-sm">Quinta de Arcossó</span><p class="text-xs text-gray-500">+10,00 €/adulto</p></div></label>
-                             <label><input type="radio" name="vinho" value="15" data-name="Quinta de Arcossó Reserva" class="sr-only peer"><div class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center"><span class="font-medium text-sm">Q. de Arcossó Reserva</span><p class="text-xs text-gray-500">+15,00 €/adulto</p></div></label>
+                             <label><input type="radio" name="vinho" value="5" data-name="Vinhas da Tilda Mau" class="sr-only peer"><div class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center"><span class="font-medium text-sm">Vinhas da Tilda Mau</span><p class="text-xs text-gray-500">+5,00 €/adulto</p></div></label>
                         </div>
                     </div>
                 </section>
@@ -266,19 +269,28 @@
                         <div>
                             <input type="checkbox" data-price="5" data-type="perPessoa" id="extraDecoracao" class="sr-only peer">
                             <label for="extraDecoracao" class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center">
-                                <span class="font-medium text-sm">Decoração</span><p class="text-xs text-gray-500">+5,00 €/p</p>
+                                <span class="font-medium text-sm">Decoração</span>
+                                <p class="text-xs text-gray-500">(sem flores)</p>
+                                <p class="text-xs text-gray-500">+5,00 €/p</p>
+                            </label>
+                        </div>
+                         <div>
+                            <input type="checkbox" data-price="5" data-type="perPessoa" id="extraPreguinhos" class="sr-only peer">
+                            <label for="extraPreguinhos" class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center">
+                                <span class="font-medium text-sm">Preguinhos</span>
+                                <p class="text-xs text-gray-500">+5,00 €/p</p>
                             </label>
                         </div>
                          <div>
                             <input type="checkbox" data-type="quote" id="extraMusica" class="sr-only peer">
                             <label for="extraMusica" class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center">
-                                <span class="font-medium text-sm">Música ao Vivo</span><p class="text-xs text-gray-500 font-bold">Sob Orçamento</p>
+                                <span class="font-medium text-sm">Música ao Vivo</span><p class="text-xs text-gray-500">a partir de 350€</p>
                             </label>
                         </div>
                         <div>
                             <input type="checkbox" data-type="quote" id="extraBaloes" class="sr-only peer">
                             <label for="extraBaloes" class="interactive-card p-3 border-gray-300 rounded-lg text-center flex flex-col justify-center">
-                                <span class="font-medium text-sm">Cenário Balões</span><p class="text-xs text-gray-500 font-bold">Sob Orçamento</p>
+                                <span class="font-medium text-sm">Cenário Balões</span><p class="text-xs text-gray-500">a partir de 250€</p>
                             </label>
                         </div>
                     </div>
@@ -321,7 +333,7 @@
         </p>
     </footer>
 
-            <script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const allInputs = document.querySelectorAll('input, select');
             const formatCurrency = (value) => `€${value.toFixed(2).replace('.', ',')}`;
@@ -417,8 +429,9 @@
                 precoPorAdulto += pratoBasePreco;
                 summaryHtml += `<div class="flex justify-between"><span>Ementa Base:</span><strong class="ml-2">${formatCurrency(pratoBasePreco)}/pax</strong></div>`;
 
-                if (document.getElementById('extraCamarao').checked) {
-                    const precoCamarao = parseFloat(document.getElementById('extraCamarao').dataset.price);
+                const extraCamaraoCheckbox = document.getElementById('extraCamarao');
+                if (extraCamaraoCheckbox && extraCamaraoCheckbox.checked) {
+                    const precoCamarao = parseFloat(extraCamaraoCheckbox.dataset.price);
                     precoPorAdulto += precoCamarao;
                     summaryHtml += `<div class="flex justify-between" style="color: var(--brand-brown-light);"><span>Extra Camarão:</span><strong class="ml-2">${formatCurrency(precoCamarao)}/pax</strong></div>`;
                 }
@@ -442,10 +455,12 @@
                 }
 
                 const vinhoOption = document.querySelector('input[name="vinho"]:checked');
-                const custoVinho = parseFloat(vinhoOption.value);
-                if (custoVinho > 0) {
-                    precoPorAdulto += custoVinho;
-                    summaryHtml += `<div class="flex justify-between" style="color: var(--brand-brown-light);"><span>Extra Vinho:</span><strong class="ml-2">${formatCurrency(custoVinho)}/pax</strong></div>`;
+                if (vinhoOption) {
+                    const custoVinho = parseFloat(vinhoOption.value);
+                    if (custoVinho > 0) {
+                        precoPorAdulto += custoVinho;
+                        summaryHtml += `<div class="flex justify-between" style="color: var(--brand-brown-light);"><span>Extra Vinho:</span><strong class="ml-2">${formatCurrency(custoVinho)}/pax</strong></div>`;
+                    }
                 }
 
                 document.querySelectorAll('input[data-type="perPessoa"]:checked').forEach(extra => {
@@ -527,7 +542,10 @@
                 }
 
                 body += `\n**BEBIDAS:**\n`;
-                body += `- Vinho: ${document.querySelector('input[name=vinho]:checked').dataset.name}\n`;
+                const vinhoOption = document.querySelector('input[name=vinho]:checked');
+                if (vinhoOption) {
+                    body += `- Vinho: ${vinhoOption.dataset.name}\n`;
+                }
                 
                 const extras = document.querySelectorAll('input[data-type="perPessoa"]:checked, input[data-type="fixo"]:checked');
                 if (extras.length > 0) {
@@ -579,5 +597,6 @@
 
 </body>
 </html>
+
 
 
