@@ -54,16 +54,18 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.07);
             border-color: var(--brand-brown-light);
         }
-        input[type="radio"]:checked + .interactive-card, input[type="checkbox"]:checked + label > .interactive-card {
+        input[type="radio"]:checked + .interactive-card, 
+        input[type="radio"]:checked + label,
+        input[type="checkbox"]:checked + label {
             border-color: var(--brand-brown);
             background-color: rgba(79, 58, 45, 0.05);
         }
-        input:disabled + label > .interactive-card {
+        input:disabled + label {
             cursor: not-allowed;
             background-color: #f3f4f6;
             opacity: 0.6;
         }
-        input:disabled + label > .interactive-card:hover {
+        input:disabled + label:hover {
             transform: none;
             box-shadow: none;
             border-color: #d1d5db;
@@ -216,10 +218,34 @@
                         </div>
                     </div>
                 </section>
+                
+                <!-- Passo 4: Sobremesas -->
+                <section class="card rounded-xl shadow-lg">
+                    <div class="card-header"><div class="step-circle">4</div><h2 class="text-xl font-bold">Sobremesas</h2></div>
+                    <div class="p-6">
+                        <p class="text-sm text-center text-gray-600 bg-gray-50 p-4 rounded-lg mb-6">As nossas sobremesas (doce e fruta) estão incluídas no valor da ementa. Por favor, selecione o modo de servir.</p>
+                        <div class="flex space-x-3 max-w-md mx-auto">
+                            <div class="flex-1">
+                                <input type="radio" name="sobremesa" value="Individual" id="sobremesaIndividual" class="sr-only peer" checked>
+                                <label for="sobremesaIndividual" class="interactive-card p-3 text-center border-gray-300 rounded-lg block">
+                                    <span class="font-semibold block">Individual</span>
+                                    <span class="text-sm text-gray-500">Restaurante</span>
+                                </label>
+                            </div>
+                            <div class="flex-1">
+                                <input type="radio" name="sobremesa" value="Buffet" id="sobremesaBuffet" class="sr-only peer">
+                                <label for="sobremesaBuffet" class="interactive-card p-3 text-center border-gray-300 rounded-lg block">
+                                    <span class="font-semibold block">Buffet</span>
+                                    <span class="text-sm text-gray-500">Salão dos Espelhos</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-                <!-- Passo 4: Bebidas -->
+                <!-- Passo 5: Bebidas -->
                  <section class="card rounded-xl shadow-lg">
-                    <div class="card-header"><div class="step-circle">4</div><h2 class="text-xl font-bold">Bebidas</h2></div>
+                    <div class="card-header"><div class="step-circle">5</div><h2 class="text-xl font-bold">Bebidas</h2></div>
                     <div class="p-6">
                         <p class="text-sm text-center text-gray-600 bg-gray-50 p-4 rounded-lg mb-6">A ementa base inclui: Vinho da casa (branco/tinto), Água, Cerveja, Sumos e Café.</p>
                         <h3 class="font-semibold mb-2 text-center">Opções de Vinho (Upgrade)</h3>
@@ -232,9 +258,9 @@
                     </div>
                 </section>
                 
-                <!-- Passo 5: Extras -->
+                <!-- Passo 6: Extras -->
                 <section class="card rounded-xl shadow-lg">
-                    <div class="card-header"><div class="step-circle">5</div><h2 class="text-xl font-bold">Extras Opcionais</h2></div>
+                    <div class="card-header"><div class="step-circle">6</div><h2 class="text-xl font-bold">Extras Opcionais</h2></div>
                     <div class="p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <div>
                             <input type="checkbox" data-price="10" data-type="perPessoa" id="extraSala" class="sr-only peer">
@@ -381,7 +407,6 @@
 
                 // Sala Privada condition
                 const salaPrivadaCheckbox = document.getElementById('extraSala');
-                
                 if (totalConvidadosPagantes < 30) {
                     salaPrivadaCheckbox.disabled = true;
                     salaPrivadaCheckbox.checked = false;
@@ -535,6 +560,11 @@
                 if (!carneSelect.disabled) {
                     body += `- Prato de Carne: ${carneSelect.options[carneSelect.selectedIndex].dataset.name}\n`;
                 }
+                
+                const sobremesaOption = document.querySelector('input[name="sobremesa"]:checked');
+                if (sobremesaOption) {
+                    body += `- Sobremesas: Serviço ${sobremesaOption.value}\n`;
+                }
 
                 body += `\n**BEBIDAS:**\n`;
                 const vinhoOption = document.querySelector('input[name=vinho]:checked');
@@ -546,15 +576,21 @@
                 if (extras.length > 0) {
                     body += `\n**EXTRAS SELECIONADOS:**\n`;
                     extras.forEach(extra => {
-                        body += `- ${extra.nextElementSibling.querySelector('span').textContent}\n`;
+                        const labelElement = document.querySelector(`label[for="${extra.id}"]`);
+                        if(labelElement){
+                            body += `- ${labelElement.querySelector('span').textContent}\n`;
+                        }
                     });
                 }
                 
                 const extrasQuote = document.querySelectorAll('input[data-type="quote"]:checked');
                 if (extrasQuote.length > 0) {
                     body += `\n**PEDIDO DE ORÇAMENTO PARA:**\n`;
-                    extrasQuote.forEach(extra => {
-                        body += `- ${extra.nextElementSibling.querySelector('span').textContent}\n`;
+                     extrasQuote.forEach(extra => {
+                        const labelElement = document.querySelector(`label[for="${extra.id}"]`);
+                        if(labelElement){
+                            body += `- ${labelElement.querySelector('span').textContent}\n`;
+                        }
                     });
                 }
 
@@ -592,7 +628,6 @@
 
 </body>
 </html>
-
 
 
 
