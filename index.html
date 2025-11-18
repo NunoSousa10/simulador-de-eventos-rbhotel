@@ -11,73 +11,841 @@
             --brand-brown: #4F3A2D;
             --brand-brown-dark: #3E2E24;
             --brand-brown-light: #795548;
+            --brand-accent: #C8A685; /* Um tom dourado/bege para acentos */
+            --bg-selected: #FDFBF7;
         }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7f6f4;
+            background-color: #f0f2f5; /* Fundo ligeiramente mais escuro para contraste com os cartões */
         }
+        
+        /* --- Estilos Base dos Cartões --- */
         .card {
             background-color: white;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            overflow: hidden; /* Para conter o header */
         }
+        
         .card-header {
-            background-color: var(--brand-brown);
+            background: linear-gradient(135deg, var(--brand-brown) 0%, var(--brand-brown-dark) 100%);
             color: white;
             padding: 1rem 1.5rem;
-            border-top-left-radius: 0.75rem;
-            border-top-right-radius: 0.75rem;
             display: flex;
             align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
         .step-circle {
-            width: 2.25rem;
-            height: 2.25rem;
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
+            font-size: 1.1rem;
             margin-right: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             flex-shrink: 0;
         }
+
+        /* --- Interactive Cards (Opções) - O NOVO DESIGN --- */
         .interactive-card {
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            border-width: 2px;
+            position: relative; /* Necessário para o badge de check */
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #e5e7eb; /* Borda padrão mais visível */
+            background-color: white;
             height: 100%;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
+
+        /* Hover State */
         .interactive-card:hover {
+            border-color: #d1d5db;
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.07);
-            border-color: var(--brand-brown-light);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
         }
+
+        /* Active Click Effect */
+        .interactive-card:active {
+            transform: scale(0.98);
+        }
+
+        /* --- ESTADO SELECIONADO (Checked) --- */
         input[type="radio"]:checked + .interactive-card, 
         input[type="radio"]:checked + label,
         input[type="checkbox"]:checked + label {
             border-color: var(--brand-brown);
-            background-color: rgba(79, 58, 45, 0.05);
+            background-color: var(--bg-selected);
+            box-shadow: 0 4px 6px -1px rgba(79, 58, 45, 0.1), 0 2px 4px -1px rgba(79, 58, 45, 0.06);
+            z-index: 10;
         }
+
+        /* O Badge de "Visto" (Checkmark) */
+        input:checked + .interactive-card::after,
+        input:checked + label::after {
+            content: '✓';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--brand-brown);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* Prevenir badge duplicado se a label já tiver formatação específica */
+        label.interactive-card { position: relative; }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Disabled State */
         input:disabled + label {
             cursor: not-allowed;
             background-color: #f3f4f6;
-            opacity: 0.6;
+            border-color: #e5e7eb;
+            opacity: 0.5;
+            box-shadow: none;
         }
         input:disabled + label:hover {
             transform: none;
-            box-shadow: none;
-            border-color: #d1d5db;
         }
+
+        /* --- Outros Elementos --- */
         .summary-card-content::-webkit-scrollbar { width: 5px; }
         .summary-card-content::-webkit-scrollbar-track { background: #e5e7eb; }
         .summary-card-content::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 5px; }
+        
         select:disabled {
-            background-color: #e5e7eb;
+            background-color: #f3f4f6;
             cursor: not-allowed;
-            opacity: 0.7;
+            color: #9ca3af;
+            border-color: #e5e7eb;
         }
+
+        .stepper-btn {
+            width: 3rem;
+            height: 3rem;
+            border: 1px solid #d1d5db;
+            background-color: white;
+            color: var(--brand-brown);
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .stepper-btn:hover { 
+            background-color: #f9fafb; 
+            color: var(--brand-brown-dark);
+        }
+        .stepper-btn:active {
+            background-color: #e5e7eb;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stepper-btn:first-of-type { border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem; }
+        .stepper-btn:last-of-type { border-top-right-radius: 0.5rem; border-bottom-right-radius: 0.5rem; }
+        
+        input[type='tel'] { 
+            -moz-appearance: textfield; 
+            font-weight: 600; 
+            color: var(--brand-brown-dark);
+        }
+        
+        /* Animação do Preço */
+        .animate-value-change {
+            animation: value-change 0.3s ease-out;
+            color: var(--brand-brown);
+        }
+        @keyframes value-change {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4" style="color: var(--brand-brown);">Hotel Rio Beça</h1>
+            <div class="h-1 w-24 mx-auto bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-6"></div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-600">Simulador de Eventos</h2>
+            <p class="mt-2 text-gray-500 font-medium">Configure o seu evento e obtenha uma estimativa imediata</p>
+            
+            <div class="mt-6 p-4 text-center text-sm rounded-lg bg-amber-50 text-amber-900 border border-amber-200 max-w-3xl mx-auto shadow-sm">
+                <strong>Nota Sazonal:</strong> Nos meses de verão, no Salão dos Espelhos, o valor final da ementa poderá sofrer ajustes.
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <main class="lg:col-span-8 space-y-8">
+                
+                <!-- Passo 1: Detalhes do Evento -->
+                <section class="card">
+                    <div class="card-header"><div class="step-circle">1</div><h2 class="text-xl font-bold tracking-wide">Detalhes do Evento</h2></div>
+                    <div class="p-6 md:p-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
+                           <div>
+                                <label for="numAdultos" class="block text-sm font-bold mb-2 text-center text-gray-700">Adultos (>10 anos)</label>
+                                <div class="flex items-center justify-center shadow-sm rounded-lg">
+                                    <button type="button" class="stepper-btn" data-target="numAdultos" data-action="decrement">-</button>
+                                    <input type="tel" pattern="[0-9]*" id="numAdultos" value="35" min="0" class="w-20 text-center p-3 border-y border-gray-300 h-12 focus:outline-none z-10">
+                                    <button type="button" class="stepper-btn" data-target="numAdultos" data-action="increment">+</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="numCriancas" class="block text-sm font-bold mb-2 text-center text-gray-700">Crianças (4-9 anos)</label>
+                                <div class="flex items-center justify-center shadow-sm rounded-lg">
+                                    <button type="button" class="stepper-btn" data-target="numCriancas" data-action="decrement">-</button>
+                                    <input type="tel" pattern="[0-9]*" id="numCriancas" value="0" min="0" class="w-20 text-center p-3 border-y border-gray-300 h-12 focus:outline-none z-10">
+                                    <button type="button" class="stepper-btn" data-target="numCriancas" data-action="increment">+</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="numBebes" class="block text-sm font-bold mb-2 text-center text-gray-700">Bebés (&lt;4 anos)</label>
+                                <div class="flex items-center justify-center shadow-sm rounded-lg">
+                                    <button type="button" class="stepper-btn" data-target="numBebes" data-action="decrement">-</button>
+                                    <input type="tel" pattern="[0-9]*" id="numBebes" value="0" min="0" class="w-20 text-center p-3 border-y border-gray-300 h-12 focus:outline-none z-10">
+                                    <button type="button" class="stepper-btn" data-target="numBebes" data-action="increment">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="dataEvento" class="block text-sm font-semibold mb-2 text-gray-700">Data do Evento</label>
+                                <input type="date" id="dataEvento" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-brown-light focus:border-brand-brown-light shadow-sm outline-none transition-shadow">
+                            </div>
+                            <div>
+                                <label for="horaChegada" class="block text-sm font-semibold mb-2 text-gray-700">Horário de Chegada</label>
+                                <input type="time" id="horaChegada" value="13:00" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-brown-light focus:border-brand-brown-light shadow-sm outline-none transition-shadow">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Passo 2: Entradas -->
+                <section class="card">
+                    <div class="card-header"><div class="step-circle">2</div><h2 class="text-xl font-bold tracking-wide">Entradas</h2></div>
+                     <div class="p-6 md:p-8 space-y-6">
+                        <div>
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center"><span class="w-1 h-6 bg-yellow-600 mr-2 rounded"></span>Base (escolher 1 opção)</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="entrada" value="Opção 1" class="sr-only peer" checked>
+                                    <div class="interactive-card p-5 h-full">
+                                        <p class="font-bold text-lg mb-2 text-gray-800">Opção 1</p>
+                                        <p class="text-sm text-gray-600 leading-relaxed">Presunto, Alheira, Chouriça c/ feijão-frade, Rissóis, Bolinhos de Bacalhau.</p>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer group">
+                                    <input type="radio" name="entrada" value="Opção 2" class="sr-only peer">
+                                    <div class="interactive-card p-5 h-full">
+                                        <p class="font-bold text-lg mb-2 text-gray-800">Opção 2</p>
+                                        <p class="text-sm text-gray-600 leading-relaxed">Presunto, Azeitonas, Folhados de queijo, Pastéis de Chaves, Bolinhos de bacalhau.</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                         <div>
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center"><span class="w-1 h-6 bg-gray-400 mr-2 rounded"></span>Opcional</h3>
+                             <div>
+                                <input type="checkbox" id="extraCamarao" data-price="5" class="sr-only peer">
+                                <label for="extraCamarao" class="interactive-card h-auto p-4 block">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-bold text-gray-800">Camarão frito com torradas</p>
+                                            <p class="text-sm text-gray-500 mt-1">Acresce 5,00 € por pessoa (adultos e crianças)</p>
+                                        </div>
+                                        <span class="text-2xl opacity-50 grayscale group-hover:grayscale-0 transition-all">🦐</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Passo 3: Pratos Principais -->
+                <section class="card">
+                    <div class="card-header"><div class="step-circle">3</div><h2 class="text-xl font-bold tracking-wide">Pratos Principais</h2></div>
+                    <div class="p-6 md:p-8 space-y-8">
+                        <div>
+                             <label class="block text-sm font-bold mb-3 text-gray-700">Quantos pratos principais?</label>
+                             <div class="flex gap-4">
+                                <label class="flex-1 relative cursor-pointer">
+                                    <input type="radio" name="tipoPrato" value="1" class="sr-only peer">
+                                    <div class="interactive-card p-4 text-center flex flex-col items-center justify-center h-24">
+                                        <span class="font-bold text-lg block text-gray-800">1 Prato</span>
+                                        <span class="text-sm font-medium text-gray-500 mt-1">35,00 €/p</span>
+                                    </div>
+                                </label>
+                                <label class="flex-1 relative cursor-pointer">
+                                    <input type="radio" name="tipoPrato" value="2" class="sr-only peer" checked>
+                                    <div class="interactive-card p-4 text-center flex flex-col items-center justify-center h-24">
+                                        <span class="font-bold text-lg block text-gray-800">2 Pratos</span>
+                                        <span class="text-sm font-medium text-gray-500 mt-1">42,50 €/p</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="escolhaPratoUnicoContainer" class="hidden p-4 bg-orange-50 rounded-lg border border-orange-100">
+                            <label class="block text-sm font-bold text-center mb-3 text-gray-800">Com 1 prato, qual a sua preferência?</label>
+                            <div class="flex gap-4 max-w-sm mx-auto">
+                                <label class="flex-1 relative cursor-pointer">
+                                    <input type="radio" name="tipoPratoUnico" value="peixe" class="sr-only peer" checked>
+                                    <div class="interactive-card p-3 text-center">
+                                        <span class="font-bold text-gray-700">Só Peixe</span>
+                                    </div>
+                                </label>
+                                <label class="flex-1 relative cursor-pointer">
+                                    <input type="radio" name="tipoPratoUnico" value="carne" class="sr-only peer">
+                                    <div class="interactive-card p-3 text-center">
+                                        <span class="font-bold text-gray-700">Só Carne</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="relative">
+                                <label for="pratoPeixe" class="block font-bold mb-2 text-gray-700 flex items-center">
+                                    <span class="text-xl mr-2">🐟</span> Prato de Peixe
+                                </label>
+                                <div class="relative">
+                                    <select id="pratoPeixe" class="w-full p-4 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-brown-light focus:border-brand-brown bg-white shadow-sm appearance-none cursor-pointer font-medium text-gray-700 transition-colors">
+                                        <option value="0" data-name="Bacalhau com Cebolada">Bacalhau com Cebolada</option>
+                                        <option value="0" data-name="Bacalhau à Espiritual">Bacalhau à Espiritual</option>
+                                        <option value="0" data-name="Bacalhau com Natas">Bacalhau com Natas</option>
+                                        <option value="0" data-name="Truta à Rio Beça">Truta à Rio Beça</option>
+                                        <option value="0" data-name="Bacalhau com broa">Bacalhau com broa</option>
+                                        <option value="5" data-name="Lombinhos de salmão">Lombinhos de salmão (+5€)</option>
+                                        <option value="0" data-name="Arroz de Tamboril">Arroz de Tamboril</option>
+                                        <option value="5" data-name="Filetes de polvo com arroz de feijão">Filetes de polvo c/ arroz de feijão (+5€)</option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="pratoCarne" class="block font-bold mb-2 text-gray-700 flex items-center">
+                                    <span class="text-xl mr-2">🥩</span> Prato de Carne
+                                </label>
+                                <div class="relative">
+                                    <select id="pratoCarne" class="w-full p-4 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-brown-light focus:border-brand-brown bg-white shadow-sm appearance-none cursor-pointer font-medium text-gray-700 transition-colors">
+                                        <option value="0" data-name="Vitela Barrosã grelhada ou assada">Vitela Barrosã grelhada/assada</option>
+                                        <option value="0" data-name="Misto de vitela Barrosã cozida e grelhada">Misto vitela cozida e grelhada</option>
+                                        <option value="0" data-name="Bifinhos com cogumelos">Bifinhos com cogumelos</option>
+                                        <option value="0" data-name="Vitela Barrosã estufada com castanhas">Vitela estufada com castanhas</option>
+                                        <option value="0" data-name="Javali estufado com castanhas">Javali estufado com castanhas</option>
+                                        <option value="5" data-name="Misto de vitela barrosã e cabrito barrosão">Misto vitela e cabrito (+5€)</option>
+                                        <option value="5" data-name="Medalhões de vitela barrosã">Medalhões de vitela (+5€)</option>
+                                        <option value="0" data-name="Arroz de pato">Arroz de pato</option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Passo 4: Sobremesas -->
+                <section class="card">
+                    <div class="card-header"><div class="step-circle">4</div><h2 class="text-xl font-bold tracking-wide">Sobremesas</h2></div>
+                    <div class="p-6 md:p-8">
+                        <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-6 flex items-start">
+                            <span class="text-blue-500 text-xl mr-3">ℹ️</span>
+                            <p class="text-sm text-blue-800">As nossas sobremesas (doce e fruta) estão incluídas. Selecione apenas o serviço.</p>
+                        </div>
+                        <div class="flex gap-4 max-w-lg mx-auto">
+                            <div class="flex-1 relative">
+                                <input type="radio" name="sobremesa" value="Individual" id="sobremesaIndividual" class="sr-only peer" checked>
+                                <label for="sobremesaIndividual" class="interactive-card p-4 text-center block">
+                                    <span class="font-bold block text-gray-800 text-lg">Individual</span>
+                                    <span class="text-sm text-gray-500 mt-1">Serviço à mesa</span>
+                                </label>
+                            </div>
+                            <div class="flex-1 relative">
+                                <input type="radio" name="sobremesa" value="Buffet" id="sobremesaBuffet" class="sr-only peer">
+                                <label for="sobremesaBuffet" class="interactive-card p-4 text-center block">
+                                    <span class="font-bold block text-gray-800 text-lg">Buffet</span>
+                                    <span class="text-sm text-gray-500 mt-1">Volante / Mesa</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Passo 5: Bebidas -->
+                 <section class="card">
+                    <div class="card-header"><div class="step-circle">5</div><h2 class="text-xl font-bold tracking-wide">Bebidas</h2></div>
+                    <div class="p-6 md:p-8">
+                        <p class="text-sm text-center text-gray-600 mb-6 font-medium">A ementa base inclui: Vinho da casa (branco/tinto), Água, Cerveja, Sumos e Café.</p>
+                        <h3 class="font-bold text-gray-800 mb-4 text-center">Deseja melhorar o vinho?</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                             <label class="relative cursor-pointer">
+                                 <input type="radio" name="vinho" value="0" data-name="Vinho da Casa" class="sr-only peer" checked>
+                                 <div class="interactive-card p-4 text-center flex flex-col justify-center min-h-[120px]">
+                                     <span class="font-bold text-sm text-gray-800">Vinho da Casa</span>
+                                     <span class="mt-2 text-xs font-semibold bg-green-100 text-green-800 py-1 px-2 rounded-full self-center">Incluído</span>
+                                 </div>
+                             </label>
+                             <label class="relative cursor-pointer">
+                                 <input type="radio" name="vinho" value="7.50" data-name="Encostas de Sonim" class="sr-only peer">
+                                 <div class="interactive-card p-4 text-center flex flex-col justify-center min-h-[120px]">
+                                     <span class="font-bold text-sm text-gray-800">Encostas de Sonim</span>
+                                     <p class="text-xs text-gray-500 mt-2">+7,50 €/pax</p>
+                                 </div>
+                             </label>
+                             <label class="relative cursor-pointer">
+                                 <input type="radio" name="vinho" value="10" data-name="Quinta de Arcossó Colheita" class="sr-only peer">
+                                 <div class="interactive-card p-4 text-center flex flex-col justify-center min-h-[120px]">
+                                     <span class="font-bold text-sm text-gray-800">Quinta de Arcossó</span>
+                                     <p class="text-xs text-gray-500 mt-2">+10,00 €/pax</p>
+                                 </div>
+                             </label>
+                             <label class="relative cursor-pointer">
+                                 <input type="radio" name="vinho" value="5" data-name="Vinhas da Tilda Mau" class="sr-only peer">
+                                 <div class="interactive-card p-4 text-center flex flex-col justify-center min-h-[120px]">
+                                     <span class="font-bold text-sm text-gray-800">Vinhas da Tilda Mau</span>
+                                     <p class="text-xs text-gray-500 mt-2">+5,00 €/pax</p>
+                                 </div>
+                             </label>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Passo 6: Extras -->
+                <section class="card">
+                    <div class="card-header"><div class="step-circle">6</div><h2 class="text-xl font-bold tracking-wide">Extras Opcionais</h2></div>
+                    <div class="p-6 md:p-8">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div class="relative">
+                                <input type="checkbox" data-price="5" data-type="perPessoa" id="extraSala" class="sr-only peer">
+                                <label for="extraSala" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Sala Privada</span>
+                                    <p class="text-xs text-gray-500 mt-1">+5,00 €/p</p>
+                                    <p class="text-[10px] text-orange-600 font-bold mt-1 uppercase tracking-wide">(mín. 30 pax)</p>
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" data-price="5" data-type="perPessoa" id="extraEntradasBuffet" class="sr-only peer">
+                                <label for="extraEntradasBuffet" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Entradas Buffet</span>
+                                    <p class="text-xs text-gray-500 mt-1">+5,00 €/p</p>
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" data-price="10" data-type="perPessoa" id="extraBarAberto" class="sr-only peer">
+                                <label for="extraBarAberto" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Bar Aberto</span>
+                                    <p class="text-xs text-gray-500 mt-1">+10,00 €/p</p>
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" data-price="12.5" data-type="perPessoa" id="extraCeia" class="sr-only peer">
+                                <label for="extraCeia" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Ceia</span>
+                                    <p class="text-xs text-gray-500 mt-1">+12,50 €/p</p>
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" data-price="5" data-type="perPessoa" id="extraDecoracao" class="sr-only peer">
+                                <label for="extraDecoracao" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Decoração</span>
+                                    <p class="text-xs text-gray-400 mt-1">(sem flores)</p>
+                                    <p class="text-xs text-gray-500">+5,00 €/p</p>
+                                </label>
+                            </div>
+                             <div class="relative">
+                                <input type="checkbox" data-price="5" data-type="perPessoa" id="extraPreguinhos" class="sr-only peer">
+                                <label for="extraPreguinhos" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Preguinhos</span>
+                                    <p class="text-xs text-gray-500 mt-1">+5,00 €/p</p>
+                                </label>
+                            </div>
+                             <div class="relative">
+                                <input type="checkbox" data-type="quote" id="extraMusica" class="sr-only peer">
+                                <label for="extraMusica" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Música ao Vivo</span>
+                                    <p class="text-xs text-gray-500 mt-1">a partir de 350€</p>
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="checkbox" data-type="quote" id="extraBaloes" class="sr-only peer">
+                                <label for="extraBaloes" class="interactive-card p-4 text-center flex flex-col justify-center h-full min-h-[110px]">
+                                    <span class="font-bold text-sm text-gray-800">Cenário Balões</span>
+                                    <p class="text-xs text-gray-500 mt-1">a partir de 250€</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Resumo -->
+            <aside class="lg:col-span-4">
+                <div class="card sticky top-6 summary-card-content lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto border-t-4 border-t-[var(--brand-brown)]">
+                     <div class="p-6 bg-gray-50 border-b border-gray-200">
+                         <h2 class="text-xl font-extrabold text-gray-800 uppercase tracking-wider">Estimativa</h2>
+                     </div>
+                    <div class="p-6 md:p-8 bg-white">
+                        <div id="summaryContent" class="space-y-3 text-sm text-gray-600 mb-6 border-b border-dashed border-gray-300 pb-6"></div>
+                        
+                        <div class="space-y-4 bg-gray-50 p-4 rounded-xl">
+                             <div class="flex justify-between items-center">
+                                 <span class="text-sm font-semibold text-gray-500 uppercase">Por Adulto</span>
+                                 <span id="totalPorAdulto" class="text-2xl font-bold text-gray-800">€0,00</span>
+                             </div>
+                            <div class="flex justify-between items-center border-t border-gray-200 pt-3">
+                                <span class="text-lg font-black text-gray-900">TOTAL</span>
+                                <span id="totalGeral" class="text-4xl font-extrabold" style="color: var(--brand-brown);">€0,00</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h3 class="font-bold text-gray-800 mb-2">Finalizar Pedido</h3>
+                            <p class="text-xs text-gray-500 mb-4">Envie-nos este resumo para verificarmos a disponibilidade.</p>
+                            
+                            <div class="mb-4">
+                                <label for="clientEmail" class="block text-xs font-bold uppercase text-gray-500 mb-1">O seu email</label>
+                                <input type="email" id="clientEmail" placeholder="exemplo@email.com" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-brand-brown focus:ring-0 transition-colors outline-none">
+                            </div>
+                            
+                            <button id="emailButton" class="w-full text-white font-bold py-4 px-6 rounded-lg shadow-lg transform transition-all hover:-translate-y-1 hover:shadow-xl active:translate-y-0 active:shadow-md flex items-center justify-center gap-2" style="background-color: var(--brand-brown);">
+                                <span>Solicitar Disponibilidade</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        
+        <footer class="text-center mt-16 py-10 border-t border-gray-200 bg-white rounded-t-3xl shadow-inner">
+            <h3 class="text-2xl font-bold tracking-wider mb-2" style="color: var(--brand-brown);">Hotel Rio Beça</h3>
+            <div class="w-16 h-1 bg-gray-300 mx-auto mb-6 rounded"></div>
+            <p class="text-gray-600 text-sm">
+                Carreira da Lebre, Estrada Nacional 311, 5460-125 Boticas, Portugal
+            </p>
+            <div class="flex justify-center gap-6 mt-4 text-sm text-gray-600 font-medium">
+                <span>📞 276 413 003</span>
+                <span>📱 964 614 299</span>
+            </div>
+             <p class="text-gray-500 mt-6 text-xs">
+                &copy; 2025 Hotel Rio Beça. Todos os direitos reservados.
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const allInputs = document.querySelectorAll('input, select');
+            const formatCurrency = (value) => `€${value.toFixed(2).replace('.', ',')}`;
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dataEvento').value = today;
+            
+            document.querySelectorAll('.stepper-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+                    const action = button.dataset.action;
+                    const targetInput = document.getElementById(targetId);
+                    let currentValue = parseInt(targetInput.value) || 0;
+
+                    if (action === 'increment') {
+                        currentValue++;
+                    } else if (action === 'decrement' && currentValue > 0) {
+                        currentValue--;
+                    }
+
+                    targetInput.value = currentValue;
+                    
+                    const event = new Event('input', { bubbles: true });
+                    targetInput.dispatchEvent(event);
+                });
+            });
+
+            const updatePratoUnicoState = () => {
+                const tipoPrato = document.querySelector('input[name="tipoPrato"]:checked').value;
+                const pratoUnicoContainer = document.getElementById('escolhaPratoUnicoContainer');
+                const peixeSelect = document.getElementById('pratoPeixe');
+                const carneSelect = document.getElementById('pratoCarne');
+                
+                if (tipoPrato === '1') {
+                    pratoUnicoContainer.classList.remove('hidden');
+                    const pratoUnicoEscolhido = document.querySelector('input[name="tipoPratoUnico"]:checked').value;
+                    peixeSelect.disabled = (pratoUnicoEscolhido !== 'peixe');
+                    carneSelect.disabled = (pratoUnicoEscolhido !== 'carne');
+                    
+                    // Visual disable style for parent divs if needed
+                    peixeSelect.parentElement.style.opacity = (pratoUnicoEscolhido !== 'peixe') ? '0.5' : '1';
+                    carneSelect.parentElement.style.opacity = (pratoUnicoEscolhido !== 'carne') ? '0.5' : '1';
+
+                } else {
+                    pratoUnicoContainer.classList.add('hidden');
+                    peixeSelect.disabled = false;
+                    carneSelect.disabled = false;
+                    peixeSelect.parentElement.style.opacity = '1';
+                    carneSelect.parentElement.style.opacity = '1';
+                }
+            };
+            
+            const checkConditions = () => {
+                const numAdultos = parseInt(document.getElementById('numAdultos').value) || 0;
+                const numCriancas = parseInt(document.getElementById('numCriancas').value) || 0;
+                const totalConvidadosPagantes = numAdultos + numCriancas;
+
+                // Sala Privada condition
+                const salaPrivadaCheckbox = document.getElementById('extraSala');
+                if (totalConvidadosPagantes < 30) {
+                    salaPrivadaCheckbox.disabled = true;
+                    salaPrivadaCheckbox.checked = false;
+                } else {
+                    salaPrivadaCheckbox.disabled = false;
+                }
+            };
+
+            const calcularTotal = () => {
+                checkConditions();
+
+                const numAdultosInput = document.getElementById('numAdultos');
+                const numCriancasInput = document.getElementById('numCriancas');
+                
+                const numAdultos = parseInt(numAdultosInput.value) || 0;
+                const numCriancas = parseInt(numCriancasInput.value) || 0;
+                const numBebes = parseInt(document.getElementById('numBebes').value) || 0;
+
+                const summaryEl = document.getElementById('summaryContent');
+
+                if (numAdultos < 0 || numCriancas < 0 || numBebes < 0 || (numAdultos + numCriancas) === 0) {
+                     summaryEl.innerHTML = '<p class="text-red-600 font-bold text-center bg-red-50 p-2 rounded">Por favor, indique o número de convidados.</p>';
+                    document.getElementById('totalGeral').textContent = formatCurrency(0);
+                    document.getElementById('totalPorAdulto').textContent = formatCurrency(0);
+                    return;
+                }
+
+                // --- Cálculo do Preço Base por Adulto ---
+                let precoPorAdulto = 0;
+                let summaryHtml = '';
+
+                const tipoPrato = document.querySelector('input[name="tipoPrato"]:checked').value;
+                const pratoBasePreco = tipoPrato === '1' ? 35.00 : 42.50;
+                precoPorAdulto += pratoBasePreco;
+                summaryHtml += `<div class="flex justify-between items-center"><span class="text-gray-600">Ementa Base</span><strong class="text-gray-900">${formatCurrency(pratoBasePreco)}/pax</strong></div>`;
+
+                const extraCamaraoCheckbox = document.getElementById('extraCamarao');
+                if (extraCamaraoCheckbox && extraCamaraoCheckbox.checked) {
+                    const precoCamarao = parseFloat(extraCamaraoCheckbox.dataset.price);
+                    precoPorAdulto += precoCamarao;
+                    summaryHtml += `<div class="flex justify-between items-center text-xs"><span class="pl-2 text-gray-500">+ Camarão</span><strong>${formatCurrency(precoCamarao)}</strong></div>`;
+                }
+                
+                const peixeSelect = document.getElementById('pratoPeixe');
+                if (!peixeSelect.disabled) {
+                    const custoPeixe = parseFloat(peixeSelect.value);
+                    if (custoPeixe > 0) {
+                        precoPorAdulto += custoPeixe;
+                        summaryHtml += `<div class="flex justify-between items-center text-xs"><span class="pl-2 text-gray-500">+ Upgrade Peixe</span><strong>${formatCurrency(custoPeixe)}</strong></div>`;
+                    }
+                }
+                
+                const carneSelect = document.getElementById('pratoCarne');
+                if (!carneSelect.disabled) {
+                    const custoCarne = parseFloat(carneSelect.value);
+                    if (custoCarne > 0) {
+                        precoPorAdulto += custoCarne;
+                        summaryHtml += `<div class="flex justify-between items-center text-xs"><span class="pl-2 text-gray-500">+ Upgrade Carne</span><strong>${formatCurrency(custoCarne)}</strong></div>`;
+                    }
+                }
+
+                const vinhoOption = document.querySelector('input[name="vinho"]:checked');
+                if (vinhoOption) {
+                    const custoVinho = parseFloat(vinhoOption.value);
+                    if (custoVinho > 0) {
+                        precoPorAdulto += custoVinho;
+                        summaryHtml += `<div class="flex justify-between items-center text-xs"><span class="pl-2 text-gray-500">+ Upgrade Vinho</span><strong>${formatCurrency(custoVinho)}</strong></div>`;
+                    }
+                }
+
+                document.querySelectorAll('input[data-type="perPessoa"]:checked').forEach(extra => {
+                    const price = parseFloat(extra.dataset.price);
+                    precoPorAdulto += price;
+                    const label = extra.nextElementSibling.querySelector('span').textContent;
+                    summaryHtml += `<div class="flex justify-between items-center text-xs"><span class="pl-2 text-gray-500">+ ${label}</span><strong>${formatCurrency(price)}</strong></div>`;
+                });
+
+                // --- Cálculo do Total Geral ---
+                const precoPorCrianca = precoPorAdulto / 2;
+                let totalGeral = (numAdultos * precoPorAdulto) + (numCriancas * precoPorCrianca);
+
+                let extrasFixoHtml = '';
+                document.querySelectorAll('input[data-type="fixo"]:checked').forEach(extra => {
+                    const price = parseFloat(extra.dataset.price);
+                    totalGeral += price;
+                    const label = extra.nextElementSibling.querySelector('span').textContent;
+                    extrasFixoHtml += `<div class="flex justify-between text-brand-brown font-medium"><span>${label}</span><span>${formatCurrency(price)}</span></div>`;
+                });
+
+                let extrasQuoteHtml = '';
+                document.querySelectorAll('input[data-type="quote"]:checked').forEach(extra => {
+                    const label = extra.nextElementSibling.querySelector('span').textContent;
+                    extrasQuoteHtml += `<div class="flex justify-between text-xs text-gray-500"><span>${label}</span><span class="italic">Sob Orçamento</span></div>`;
+                });
+
+                summaryHtml += `<hr class="my-3 border-gray-200">`;
+                
+                // Resumo detalhado final
+                summaryHtml += `<div class="flex justify-between text-gray-800 mb-1"><span>${numAdultos} Adultos</span><span class="font-semibold">${formatCurrency(numAdultos * precoPorAdulto)}</span></div>`;
+                if (numCriancas > 0) {
+                    summaryHtml += `<div class="flex justify-between text-gray-800 mb-1"><span>${numCriancas} Crianças (50%)</span><span class="font-semibold">${formatCurrency(numCriancas * precoPorCrianca)}</span></div>`;
+                }
+                
+                if(extrasFixoHtml) summaryHtml += `<div class="mt-2 pt-2 border-t border-gray-100">${extrasFixoHtml}</div>`;
+                if(extrasQuoteHtml) summaryHtml += `<div class="mt-2 pt-2 border-t border-gray-100 bg-yellow-50 p-2 rounded">${extrasQuoteHtml}</div>`;
+
+                
+                const totalGeralEl = document.getElementById('totalGeral');
+                // Animação simples
+                totalGeralEl.classList.remove('animate-value-change');
+                void totalGeralEl.offsetWidth; // trigger reflow
+                totalGeralEl.classList.add('animate-value-change');
+
+                totalGeralEl.textContent = formatCurrency(totalGeral);
+                document.getElementById('totalPorAdulto').textContent = formatCurrency(precoPorAdulto);
+                summaryEl.innerHTML = summaryHtml;
+            };
+
+            const generateEmailBody = () => {
+                const numAdultos = document.getElementById('numAdultos').value;
+                const numCriancas = document.getElementById('numCriancas').value;
+                const numBebes = document.getElementById('numBebes').value;
+                const dataEvento = document.getElementById('dataEvento').value;
+                const horaChegada = document.getElementById('horaChegada').value;
+                const tipoPratoVal = document.querySelector('input[name="tipoPrato"]:checked').value;
+                const tipoPratoText = `${tipoPratoVal} Prato${tipoPratoVal > 1 ? 's' : ''}`;
+                const clientEmail = document.getElementById('clientEmail').value || 'Não especificado';
+
+                let body = `## Pedido de Orçamento - Hotel Rio Beça ##\n\n`;
+                body += `Este é um resumo gerado pela ferramenta de simulação de eventos.\n`;
+                body += `--------------------------------\n\n`;
+                
+                body += `**DETALHES DO EVENTO:**\n`;
+                body += `- Email de Contacto: ${clientEmail}\n`;
+                body += `- Data: ${dataEvento} às ${horaChegada}\n`;
+                body += `- Convidados: ${numAdultos} Adultos, ${numCriancas} Crianças, ${numBebes} Bebés\n`;
+
+                body += `\n**MENU SELECIONADO:**\n`;
+                body += `- Ementa: ${tipoPratoText}\n`;
+                body += `- Entradas: ${document.querySelector('input[name=entrada]:checked').value}\n`;
+                if(document.getElementById('extraCamarao').checked){
+                    body += `- Opcional Entradas: Camarão frito com torradas\n`;
+                }
+
+                const peixeSelect = document.getElementById('pratoPeixe');
+                if (!peixeSelect.disabled) {
+                    body += `- Prato de Peixe: ${peixeSelect.options[peixeSelect.selectedIndex].dataset.name}\n`;
+                }
+                const carneSelect = document.getElementById('pratoCarne');
+                if (!carneSelect.disabled) {
+                    body += `- Prato de Carne: ${carneSelect.options[carneSelect.selectedIndex].dataset.name}\n`;
+                }
+                
+                const sobremesaOption = document.querySelector('input[name="sobremesa"]:checked');
+                if (sobremesaOption) {
+                    body += `- Sobremesas: Serviço ${sobremesaOption.value}\n`;
+                }
+
+                body += `\n**BEBIDAS:**\n`;
+                const vinhoOption = document.querySelector('input[name=vinho]:checked');
+                if (vinhoOption) {
+                    body += `- Vinho: ${vinhoOption.dataset.name}\n`;
+                }
+                
+                const extras = document.querySelectorAll('input[data-type="perPessoa"]:checked, input[data-type="fixo"]:checked');
+                if (extras.length > 0) {
+                    body += `\n**EXTRAS SELECIONADOS:**\n`;
+                    extras.forEach(extra => {
+                        const labelElement = document.querySelector(`label[for="${extra.id}"]`);
+                        if(labelElement){
+                            body += `- ${labelElement.querySelector('span').textContent}\n`;
+                        }
+                    });
+                }
+                
+                const extrasQuote = document.querySelectorAll('input[data-type="quote"]:checked');
+                if (extrasQuote.length > 0) {
+                    body += `\n**PEDIDO DE ORÇAMENTO PARA:**\n`;
+                     extrasQuote.forEach(extra => {
+                        const labelElement = document.querySelector(`label[for="${extra.id}"]`);
+                        if(labelElement){
+                            body += `- ${labelElement.querySelector('span').textContent}\n`;
+                        }
+                    });
+                }
+
+                body += `\n--------------------------------\n`;
+                body += `**ORÇAMENTO (Estimativa):**\n`;
+                body += `- Valor por Adulto: ${document.getElementById('totalPorAdulto').textContent}\n`;
+                body += `- TOTAL GERAL: ${document.getElementById('totalGeral').textContent} (+ valor dos itens sob orçamento)\n`;
+                body += `--------------------------------\n\n`;
+                body += `Aguardo contacto para confirmação.\n`;
+
+                return body;
+            };
+
+            document.getElementById('emailButton').addEventListener('click', () => {
+                const hotelEmail = 'riobeca@gmail.com'; 
+                const numAdultos = parseInt(document.getElementById('numAdultos').value) || 0;
+                const numCriancas = parseInt(document.getElementById('numCriancas').value) || 0;
+                const totalConvidados = numAdultos + numCriancas;
+
+                const subject = `Pedido de Orçamento para Evento - ${totalConvidados} Pessoas`;
+                const body = generateEmailBody();
+                window.location.href = `mailto:${hotelEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            });
+            
+            allInputs.forEach(input => {
+                input.addEventListener('change', () => { updatePratoUnicoState(); calcularTotal(); });
+                input.addEventListener('input', calcularTotal);
+            });
+            
+            // Inicialização
+            updatePratoUnicoState();
+            calcularTotal();
+        });
+    </script>
+
+</body>
+</html>        }
         .animate-value-change {
             animation: value-change 0.4s ease-out;
         }
@@ -628,6 +1396,7 @@
 
 </body>
 </html>
+
 
 
 
